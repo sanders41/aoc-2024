@@ -1,7 +1,9 @@
 [package]
-name = "aoc-2024"
+name = "aoc"
 version = "0.1.0"
 edition = "2021"
+authors = ["Paul Sanders <paul@paulsanders.dev>"]
+license = "MIT"
 
 [dependencies]
 anyhow = "1.0.93"

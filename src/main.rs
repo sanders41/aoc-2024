@@ -1,6 +1,8 @@
 mod utils;
 mod year_2024;
 
+use std::fmt::{Display, Formatter};
+
 use clap::{Parser, ValueEnum};
 
 #[derive(Clone, Debug, ValueEnum)]
@@ -32,15 +34,55 @@ enum Day {
     Day25,
 }
 
-#[derive(Clone, Debug, ValueEnum)]
-enum Puzzle {
-    Puzzle1,
-    Puzzle2,
+impl Display for Day {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Day::Day1 => Display::fmt("day1", f),
+            Day::Day2 => Display::fmt("day2", f),
+            Day::Day3 => Display::fmt("day3", f),
+            Day::Day4 => Display::fmt("day4", f),
+            Day::Day5 => Display::fmt("day5", f),
+            Day::Day6 => Display::fmt("day6", f),
+            Day::Day7 => Display::fmt("day7", f),
+            Day::Day8 => Display::fmt("day8", f),
+            Day::Day9 => Display::fmt("day9", f),
+            Day::Day10 => Display::fmt("day10", f),
+            Day::Day11 => Display::fmt("day11", f),
+            Day::Day12 => Display::fmt("day12", f),
+            Day::Day13 => Display::fmt("day13", f),
+            Day::Day14 => Display::fmt("day14", f),
+            Day::Day15 => Display::fmt("day15", f),
+            Day::Day16 => Display::fmt("day16", f),
+            Day::Day17 => Display::fmt("day17", f),
+            Day::Day18 => Display::fmt("day18", f),
+            Day::Day19 => Display::fmt("day19", f),
+            Day::Day20 => Display::fmt("day20", f),
+            Day::Day21 => Display::fmt("day21", f),
+            Day::Day22 => Display::fmt("day22", f),
+            Day::Day23 => Display::fmt("day23", f),
+            Day::Day24 => Display::fmt("day24", f),
+            Day::Day25 => Display::fmt("day25", f),
+        }
+    }
 }
 
 #[derive(Clone, Debug, ValueEnum)]
 enum Year {
     Year2024,
+}
+
+impl Display for Year {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Year::Year2024 => Display::fmt("year_2024", f),
+        }
+    }
+}
+
+#[derive(Clone, Debug, ValueEnum)]
+enum Puzzle {
+    Puzzle1,
+    Puzzle2,
 }
 
 #[derive(Debug, Parser)]
