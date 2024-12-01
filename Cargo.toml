@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = [
+  "aoc-2024", "cli", "utils",
+]
+
+[workspace.package]
+name = "aoc"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[workspace.dependencies]
+aoc-2024 = { path = "aoc-2024" }
+utils = { path = "utils" }

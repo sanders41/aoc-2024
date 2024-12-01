@@ -1,0 +1,11 @@
+[package]
+name = "aoc-2024"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.93"
+utils = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3.14.0"
