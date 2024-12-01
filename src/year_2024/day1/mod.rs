@@ -5,7 +5,7 @@ use std::{
 
 use anyhow::{bail, Result};
 
-use utils::{build_data_file_path, read_lines};
+use crate::utils::{build_data_file_path, read_lines};
 
 struct Values {
     left: Vec<usize>,
@@ -22,14 +22,14 @@ impl Values {
 }
 
 pub fn puzzle1() {
-    let file_path = build_data_file_path("aoc-2024/src/day1/data.txt").unwrap();
+    let file_path = build_data_file_path("src/year_2024/day1/data.txt").unwrap();
     let lines = read_lines(file_path).unwrap();
     let result = calculate_part_one(lines).unwrap();
     println!("{result}");
 }
 
 pub fn puzzle2() {
-    let file_path = build_data_file_path("aoc-2024/src/day1/data.txt").unwrap();
+    let file_path = build_data_file_path("src/year_2024/day1/data.txt").unwrap();
     let lines = read_lines(file_path).unwrap();
     let result = calculate_part_two(lines).unwrap();
     println!("{result}");
@@ -55,7 +55,6 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
 
     for value in values.left.iter() {
         let count = values.right.iter().filter(|&x| x == value).count();
-        println!("value: {value}, count: {count}");
         let similarity = value * count;
         total += similarity;
     }

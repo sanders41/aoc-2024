@@ -1,15 +1,11 @@
-[workspace]
-resolver = "2"
-members = [
-  "aoc-2024", "cli", "utils",
-]
-
-[workspace.package]
-name = "aoc"
+[package]
+name = "aoc-2024"
 version = "0.1.0"
 edition = "2021"
-license = "MIT"
 
-[workspace.dependencies]
-aoc-2024 = { path = "aoc-2024" }
-utils = { path = "utils" }
+[dependencies]
+anyhow = "1.0.93"
+clap = { version = "4.5.21", features = ["derive"] }
+
+[dev-dependencies]
+tempfile = "3.14.0"
