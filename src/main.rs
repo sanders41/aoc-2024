@@ -1,5 +1,29 @@
+mod day1;
+mod day10;
+mod day11;
+mod day12;
+mod day13;
+mod day14;
+mod day15;
+mod day16;
+mod day17;
+mod day18;
+mod day19;
+mod day2;
+mod day20;
+mod day21;
+mod day22;
+mod day23;
+mod day24;
+mod day25;
+mod day3;
+mod day4;
+mod day5;
+mod day6;
+mod day7;
+mod day8;
+mod day9;
 mod utils;
-mod year_2024;
 
 use std::fmt::{Display, Formatter};
 
@@ -67,19 +91,6 @@ impl Display for Day {
 }
 
 #[derive(Clone, Debug, ValueEnum)]
-enum Year {
-    Year2024,
-}
-
-impl Display for Year {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Year::Year2024 => Display::fmt("year_2024", f),
-        }
-    }
-}
-
-#[derive(Clone, Debug, ValueEnum)]
 enum Puzzle {
     Puzzle1,
     Puzzle2,
@@ -88,9 +99,6 @@ enum Puzzle {
 #[derive(Debug, Parser)]
 #[clap(author, version, about = "Run the puzzle file")]
 struct Args {
-    /// The aoc year to run
-    year: Year,
-
     /// The day to run
     day: Day,
 
@@ -101,108 +109,106 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    match args.year {
-        Year::Year2024 => match args.day {
-            Day::Day1 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day1::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day1::puzzle2(),
-            },
-            Day::Day2 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day2::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day2::puzzle2(),
-            },
-            Day::Day3 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day3::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day3::puzzle2(),
-            },
-            Day::Day4 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day4::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day4::puzzle2(),
-            },
-            Day::Day5 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day5::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day5::puzzle2(),
-            },
-            Day::Day6 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day6::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day6::puzzle2(),
-            },
-            Day::Day7 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day7::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day7::puzzle2(),
-            },
-            Day::Day8 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day8::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day8::puzzle2(),
-            },
-            Day::Day9 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day9::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day9::puzzle2(),
-            },
-            Day::Day10 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day10::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day10::puzzle2(),
-            },
-            Day::Day11 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day11::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day11::puzzle2(),
-            },
-            Day::Day12 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day12::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day12::puzzle2(),
-            },
-            Day::Day13 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day13::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day13::puzzle2(),
-            },
-            Day::Day14 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day14::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day14::puzzle2(),
-            },
-            Day::Day15 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day15::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day15::puzzle2(),
-            },
-            Day::Day16 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day16::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day16::puzzle2(),
-            },
-            Day::Day17 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day17::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day17::puzzle2(),
-            },
-            Day::Day18 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day18::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day18::puzzle2(),
-            },
-            Day::Day19 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day19::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day19::puzzle2(),
-            },
-            Day::Day20 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day20::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day20::puzzle2(),
-            },
-            Day::Day21 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day21::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day21::puzzle2(),
-            },
-            Day::Day22 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day22::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day22::puzzle2(),
-            },
-            Day::Day23 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day23::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day23::puzzle2(),
-            },
-            Day::Day24 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day24::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day24::puzzle2(),
-            },
-            Day::Day25 => match args.puzzle {
-                Puzzle::Puzzle1 => year_2024::day25::puzzle1(),
-                Puzzle::Puzzle2 => year_2024::day25::puzzle2(),
-            },
+    match args.day {
+        Day::Day1 => match args.puzzle {
+            Puzzle::Puzzle1 => day1::puzzle1(),
+            Puzzle::Puzzle2 => day1::puzzle2(),
+        },
+        Day::Day2 => match args.puzzle {
+            Puzzle::Puzzle1 => day2::puzzle1(),
+            Puzzle::Puzzle2 => day2::puzzle2(),
+        },
+        Day::Day3 => match args.puzzle {
+            Puzzle::Puzzle1 => day3::puzzle1(),
+            Puzzle::Puzzle2 => day3::puzzle2(),
+        },
+        Day::Day4 => match args.puzzle {
+            Puzzle::Puzzle1 => day4::puzzle1(),
+            Puzzle::Puzzle2 => day4::puzzle2(),
+        },
+        Day::Day5 => match args.puzzle {
+            Puzzle::Puzzle1 => day5::puzzle1(),
+            Puzzle::Puzzle2 => day5::puzzle2(),
+        },
+        Day::Day6 => match args.puzzle {
+            Puzzle::Puzzle1 => day6::puzzle1(),
+            Puzzle::Puzzle2 => day6::puzzle2(),
+        },
+        Day::Day7 => match args.puzzle {
+            Puzzle::Puzzle1 => day7::puzzle1(),
+            Puzzle::Puzzle2 => day7::puzzle2(),
+        },
+        Day::Day8 => match args.puzzle {
+            Puzzle::Puzzle1 => day8::puzzle1(),
+            Puzzle::Puzzle2 => day8::puzzle2(),
+        },
+        Day::Day9 => match args.puzzle {
+            Puzzle::Puzzle1 => day9::puzzle1(),
+            Puzzle::Puzzle2 => day9::puzzle2(),
+        },
+        Day::Day10 => match args.puzzle {
+            Puzzle::Puzzle1 => day10::puzzle1(),
+            Puzzle::Puzzle2 => day10::puzzle2(),
+        },
+        Day::Day11 => match args.puzzle {
+            Puzzle::Puzzle1 => day11::puzzle1(),
+            Puzzle::Puzzle2 => day11::puzzle2(),
+        },
+        Day::Day12 => match args.puzzle {
+            Puzzle::Puzzle1 => day12::puzzle1(),
+            Puzzle::Puzzle2 => day12::puzzle2(),
+        },
+        Day::Day13 => match args.puzzle {
+            Puzzle::Puzzle1 => day13::puzzle1(),
+            Puzzle::Puzzle2 => day13::puzzle2(),
+        },
+        Day::Day14 => match args.puzzle {
+            Puzzle::Puzzle1 => day14::puzzle1(),
+            Puzzle::Puzzle2 => day14::puzzle2(),
+        },
+        Day::Day15 => match args.puzzle {
+            Puzzle::Puzzle1 => day15::puzzle1(),
+            Puzzle::Puzzle2 => day15::puzzle2(),
+        },
+        Day::Day16 => match args.puzzle {
+            Puzzle::Puzzle1 => day16::puzzle1(),
+            Puzzle::Puzzle2 => day16::puzzle2(),
+        },
+        Day::Day17 => match args.puzzle {
+            Puzzle::Puzzle1 => day17::puzzle1(),
+            Puzzle::Puzzle2 => day17::puzzle2(),
+        },
+        Day::Day18 => match args.puzzle {
+            Puzzle::Puzzle1 => day18::puzzle1(),
+            Puzzle::Puzzle2 => day18::puzzle2(),
+        },
+        Day::Day19 => match args.puzzle {
+            Puzzle::Puzzle1 => day19::puzzle1(),
+            Puzzle::Puzzle2 => day19::puzzle2(),
+        },
+        Day::Day20 => match args.puzzle {
+            Puzzle::Puzzle1 => day20::puzzle1(),
+            Puzzle::Puzzle2 => day20::puzzle2(),
+        },
+        Day::Day21 => match args.puzzle {
+            Puzzle::Puzzle1 => day21::puzzle1(),
+            Puzzle::Puzzle2 => day21::puzzle2(),
+        },
+        Day::Day22 => match args.puzzle {
+            Puzzle::Puzzle1 => day22::puzzle1(),
+            Puzzle::Puzzle2 => day22::puzzle2(),
+        },
+        Day::Day23 => match args.puzzle {
+            Puzzle::Puzzle1 => day23::puzzle1(),
+            Puzzle::Puzzle2 => day23::puzzle2(),
+        },
+        Day::Day24 => match args.puzzle {
+            Puzzle::Puzzle1 => day24::puzzle1(),
+            Puzzle::Puzzle2 => day24::puzzle2(),
+        },
+        Day::Day25 => match args.puzzle {
+            Puzzle::Puzzle1 => day25::puzzle1(),
+            Puzzle::Puzzle2 => day25::puzzle2(),
         },
     }
 }
