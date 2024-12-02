@@ -7,7 +7,7 @@ use anyhow::{bail, Result};
 
 use crate::{
     utils::{build_data_file_path, read_lines},
-    Day, Year,
+    Day,
 };
 
 struct Values {
@@ -25,14 +25,14 @@ impl Values {
 }
 
 pub fn puzzle1() {
-    let file_path = build_data_file_path(&Year::Year2024, &Day::Day1, "data.txt").unwrap();
+    let file_path = build_data_file_path(&Day::Day1, "data.txt").unwrap();
     let lines = read_lines(file_path).unwrap();
     let result = calculate_part_one(lines).unwrap();
     println!("{result}");
 }
 
 pub fn puzzle2() {
-    let file_path = build_data_file_path(&Year::Year2024, &Day::Day1, "data.txt").unwrap();
+    let file_path = build_data_file_path(&Day::Day1, "data.txt").unwrap();
     let lines = read_lines(file_path).unwrap();
     let result = calculate_part_two(lines).unwrap();
     println!("{result}");
