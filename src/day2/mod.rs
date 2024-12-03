@@ -1,9 +1,11 @@
 use std::{
     fs::File,
     io::{BufReader, Lines},
+    sync::atomic::{AtomicUsize, Ordering},
 };
 
 use anyhow::Result;
+use rayon::prelude::*;
 
 use crate::{
     utils::{build_data_file_path, read_lines},
@@ -22,6 +24,22 @@ pub fn puzzle2() {
     let file_path = build_data_file_path(&Day::Day2, "data.txt").unwrap();
     let lines = read_lines(file_path).unwrap();
     let result = calculate_part_two(lines).unwrap();
+
+    println!("{result}");
+}
+
+pub fn puzzle1_parallel() {
+    let file_path = build_data_file_path(&Day::Day2, "data.txt").unwrap();
+    let lines = read_lines(file_path).unwrap();
+    let result = calculate_part_one_parallel(lines).unwrap();
+
+    println!("{result}");
+}
+
+pub fn puzzle2_parallel() {
+    let file_path = build_data_file_path(&Day::Day2, "data.txt").unwrap();
+    let lines = read_lines(file_path).unwrap();
+    let result = calculate_part_two_parallel(lines).unwrap();
 
     println!("{result}");
 }
@@ -72,6 +90,59 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
     }
 
     Ok(total)
+}
+
+fn calculate_part_one_parallel(lines: Lines<BufReader<File>>) -> Result<usize> {
+    let total = AtomicUsize::new(0);
+
+    lines.par_bridge().for_each(|line| {
+        if let Ok(l) = line {
+            let levels = l
+                .split(" ")
+                .filter_map(|s| s.parse::<usize>().ok())
+                .par_bridge()
+                .collect::<Vec<usize>>();
+
+            if is_valid(&levels) {
+                total.fetch_add(1, Ordering::SeqCst);
+            }
+        }
+    });
+
+    Ok(total.load(Ordering::SeqCst))
+}
+
+fn calculate_part_two_parallel(lines: Lines<BufReader<File>>) -> Result<usize> {
+    let total = AtomicUsize::new(0);
+
+    lines.par_bridge().for_each(|line| {
+        if let Ok(l) = line {
+            let levels = l
+                .split(" ")
+                .filter_map(|s| s.parse::<usize>().ok())
+                .collect::<Vec<usize>>();
+
+            if is_valid(&levels) {
+                total.fetch_add(1, Ordering::SeqCst);
+            } else {
+                for i in 0..levels.len() {
+                    let reduced = levels
+                        .iter()
+                        .enumerate()
+                        .filter(|&(index, _)| index != i)
+                        .map(|(_, &value)| value)
+                        .collect::<Vec<_>>();
+
+                    if is_valid(&reduced) {
+                        total.fetch_add(1, Ordering::SeqCst);
+                        break;
+                    }
+                }
+            }
+        }
+    });
+
+    Ok(total.load(Ordering::SeqCst))
 }
 
 fn is_valid(values: &[usize]) -> bool {
@@ -131,6 +202,44 @@ mod tests {
         file.write_all(data.as_bytes()).unwrap();
         let lines = read_lines(file_path).unwrap();
         let result = calculate_part_two(lines).unwrap();
+
+        assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn test_part_one_parallel() {
+        let base = tempdir().unwrap().path().to_path_buf();
+        create_dir_all(&base).unwrap();
+        let file_path = base.join("data.txt");
+        let mut file = File::create(&file_path).unwrap();
+        let data = r#"7 6 4 2 1
+1 2 7 8 9
+9 7 6 2 1
+1 3 2 4 5
+8 6 4 4 1
+1 3 6 7 9"#;
+        file.write_all(data.as_bytes()).unwrap();
+        let lines = read_lines(file_path).unwrap();
+        let result = calculate_part_one_parallel(lines).unwrap();
+
+        assert_eq!(result, 2);
+    }
+
+    #[test]
+    fn test_part_two_parallel() {
+        let base = tempdir().unwrap().path().to_path_buf();
+        create_dir_all(&base).unwrap();
+        let file_path = base.join("data.txt");
+        let mut file = File::create(&file_path).unwrap();
+        let data = r#"7 6 4 2 1
+1 2 7 8 9
+9 7 6 2 1
+1 3 2 4 5
+8 6 4 4 1
+1 3 6 7 9"#;
+        file.write_all(data.as_bytes()).unwrap();
+        let lines = read_lines(file_path).unwrap();
+        let result = calculate_part_two_parallel(lines).unwrap();
 
         assert_eq!(result, 4);
     }
