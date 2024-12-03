@@ -116,7 +116,7 @@ fn gather_values(lines: Lines<BufReader<File>>) -> Result<Values> {
     let mut values = Values::new();
 
     for line in lines.map_while(Result::ok) {
-        let parts = line.split("   ").collect::<Vec<&str>>();
+        let parts = line.split_whitespace().collect::<Vec<&str>>();
         if parts.len() != 2 {
             bail!("Incorrect number of values in line: {line}");
         }

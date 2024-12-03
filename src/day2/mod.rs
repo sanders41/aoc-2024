@@ -49,7 +49,7 @@ fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
 
     for line in lines.map_while(Result::ok) {
         let levels = line
-            .split(" ")
+            .split_whitespace()
             .map(|s| s.parse::<usize>().unwrap())
             .collect::<Vec<usize>>();
 
@@ -66,7 +66,7 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
 
     for line in lines.map_while(Result::ok) {
         let levels = line
-            .split(" ")
+            .split_whitespace()
             .map(|s| s.parse::<usize>().unwrap())
             .collect::<Vec<usize>>();
 
@@ -98,7 +98,7 @@ fn calculate_part_one_parallel(lines: Lines<BufReader<File>>) -> Result<usize> {
     lines.par_bridge().for_each(|line| {
         if let Ok(l) = line {
             let levels = l
-                .split(" ")
+                .split_whitespace()
                 .filter_map(|s| s.parse::<usize>().ok())
                 .par_bridge()
                 .collect::<Vec<usize>>();
@@ -118,7 +118,7 @@ fn calculate_part_two_parallel(lines: Lines<BufReader<File>>) -> Result<usize> {
     lines.par_bridge().for_each(|line| {
         if let Ok(l) = line {
             let levels = l
-                .split(" ")
+                .split_whitespace()
                 .filter_map(|s| s.parse::<usize>().ok())
                 .collect::<Vec<usize>>();
 
