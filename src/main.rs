@@ -131,8 +131,20 @@ fn main() {
             }
         },
         Day::Day2 => match args.puzzle {
-            Puzzle::Puzzle1 => day2::puzzle1(),
-            Puzzle::Puzzle2 => day2::puzzle2(),
+            Puzzle::Puzzle1 => {
+                if !args.parallel {
+                    day2::puzzle1();
+                } else {
+                    day2::puzzle1_parallel();
+                }
+            }
+            Puzzle::Puzzle2 => {
+                if !args.parallel {
+                    day2::puzzle2();
+                } else {
+                    day2::puzzle2_parallel();
+                }
+            }
         },
         Day::Day3 => match args.puzzle {
             Puzzle::Puzzle1 => day3::puzzle1(),
