@@ -1,9 +1,11 @@
 use std::{
     fs::File,
     io::{BufReader, Lines},
+    sync::atomic::{AtomicUsize, Ordering},
 };
 
 use anyhow::{bail, Result};
+use rayon::prelude::*;
 
 use crate::{
     utils::{build_data_file_path, read_lines},
@@ -38,6 +40,20 @@ pub fn puzzle2() {
     println!("{result}");
 }
 
+pub fn puzzle1_parallel() {
+    let file_path = build_data_file_path(&Day::Day1, "data.txt").unwrap();
+    let lines = read_lines(file_path).unwrap();
+    let result = calculate_part_one_parallel(lines).unwrap();
+    println!("{result}");
+}
+
+pub fn puzzle2_parallel() {
+    let file_path = build_data_file_path(&Day::Day1, "data.txt").unwrap();
+    let lines = read_lines(file_path).unwrap();
+    let result = calculate_part_two_parallel(lines).unwrap();
+    println!("{result}");
+}
+
 fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
     let mut total = 0;
     let mut values = gather_values(lines).unwrap();
@@ -65,11 +81,42 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
     Ok(total)
 }
 
+fn calculate_part_one_parallel(lines: Lines<BufReader<File>>) -> Result<usize> {
+    let total = AtomicUsize::new(0);
+    let mut values = gather_values(lines).unwrap();
+    values.left.sort();
+    values.right.sort();
+
+    values
+        .left
+        .par_iter()
+        .enumerate()
+        .for_each(|(index, value)| {
+            let diff = value.abs_diff(values.right[index]);
+            total.fetch_add(diff, Ordering::SeqCst);
+        });
+
+    Ok(total.load(Ordering::SeqCst))
+}
+
+fn calculate_part_two_parallel(lines: Lines<BufReader<File>>) -> Result<usize> {
+    let total = AtomicUsize::new(0);
+    let values = gather_values(lines).unwrap();
+
+    values.left.par_iter().for_each(|value| {
+        let count = values.right.par_iter().filter(|&x| x == value).count();
+        let similarity = value * count;
+        total.fetch_add(similarity, Ordering::SeqCst);
+    });
+
+    Ok(total.load(Ordering::SeqCst))
+}
+
 fn gather_values(lines: Lines<BufReader<File>>) -> Result<Values> {
     let mut values = Values::new();
 
     for line in lines.map_while(Result::ok) {
-        let parts = line.split("   ").collect::<Vec<&str>>();
+        let parts = line.split_whitespace().collect::<Vec<&str>>();
         if parts.len() != 2 {
             bail!("Incorrect number of values in line: {line}");
         }
@@ -125,6 +172,44 @@ mod tests {
         file.write_all(data.as_bytes()).unwrap();
         let lines = read_lines(file_path).unwrap();
         let result = calculate_part_two(lines).unwrap();
+
+        assert_eq!(result, 31);
+    }
+
+    #[test]
+    fn test_part_one_parallel() {
+        let base = tempdir().unwrap().path().to_path_buf();
+        create_dir_all(&base).unwrap();
+        let file_path = base.join("data.txt");
+        let mut file = File::create(&file_path).unwrap();
+        let data = r#"3   4
+4   3
+2   5
+1   3
+3   9
+3   3"#;
+        file.write_all(data.as_bytes()).unwrap();
+        let lines = read_lines(file_path).unwrap();
+        let result = calculate_part_one_parallel(lines).unwrap();
+
+        assert_eq!(result, 11);
+    }
+
+    #[test]
+    fn test_part_two_parallel() {
+        let base = tempdir().unwrap().path().to_path_buf();
+        create_dir_all(&base).unwrap();
+        let file_path = base.join("data.txt");
+        let mut file = File::create(&file_path).unwrap();
+        let data = r#"3   4
+4   3
+2   5
+1   3
+3   9
+3   3"#;
+        file.write_all(data.as_bytes()).unwrap();
+        let lines = read_lines(file_path).unwrap();
+        let result = calculate_part_two_parallel(lines).unwrap();
 
         assert_eq!(result, 31);
     }
