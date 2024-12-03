@@ -104,10 +104,6 @@ struct Args {
 
     /// The puzzle to run
     puzzle: Puzzle,
-
-    /// Run the parallel version
-    #[clap(short, long)]
-    parallel: bool,
 }
 
 fn main() {
@@ -115,36 +111,12 @@ fn main() {
 
     match args.day {
         Day::Day1 => match args.puzzle {
-            Puzzle::Puzzle1 => {
-                if !args.parallel {
-                    day1::puzzle1();
-                } else {
-                    day1::puzzle1_parallel();
-                }
-            }
-            Puzzle::Puzzle2 => {
-                if !args.parallel {
-                    day1::puzzle2();
-                } else {
-                    day1::puzzle2_parallel();
-                }
-            }
+            Puzzle::Puzzle1 => day1::puzzle1(),
+            Puzzle::Puzzle2 => day1::puzzle2(),
         },
         Day::Day2 => match args.puzzle {
-            Puzzle::Puzzle1 => {
-                if !args.parallel {
-                    day2::puzzle1();
-                } else {
-                    day2::puzzle1_parallel();
-                }
-            }
-            Puzzle::Puzzle2 => {
-                if !args.parallel {
-                    day2::puzzle2();
-                } else {
-                    day2::puzzle2_parallel();
-                }
-            }
+            Puzzle::Puzzle1 => day2::puzzle1(),
+            Puzzle::Puzzle2 => day2::puzzle2(),
         },
         Day::Day3 => match args.puzzle {
             Puzzle::Puzzle1 => day3::puzzle1(),

@@ -45,7 +45,7 @@ fn calculate_part_two(data: &str) -> Result<usize> {
     let parts = data.split("don't");
     for (index, part) in parts.enumerate() {
         if index == 0 {
-            for values in re.find_iter(&part) {
+            for values in re.find_iter(part) {
                 let values_str = values.as_str();
                 let stripped = values_str.replace("mul(", "").replace(')', "");
                 let nums = stripped
@@ -54,18 +54,16 @@ fn calculate_part_two(data: &str) -> Result<usize> {
                     .collect::<Vec<usize>>();
                 total += nums[0] * nums[1];
             }
-        } else {
-            if let Some(start) = part.find("do") {
-                for values in re.find_iter(&part[start..]) {
-                    let values_str = values.as_str();
-                    let stripped = values_str.replace("mul(", "").replace(')', "");
-                    let nums = stripped
-                        .split(",")
-                        .map(|s| s.parse::<usize>().unwrap())
-                        .collect::<Vec<usize>>();
-                    println!("{:?}", nums);
-                    total += nums[0] * nums[1];
-                }
+        } else if let Some(start) = part.find("do") {
+            for values in re.find_iter(&part[start..]) {
+                let values_str = values.as_str();
+                let stripped = values_str.replace("mul(", "").replace(')', "");
+                let nums = stripped
+                    .split(",")
+                    .map(|s| s.parse::<usize>().unwrap())
+                    .collect::<Vec<usize>>();
+                println!("{:?}", nums);
+                total += nums[0] * nums[1];
             }
         }
     }
