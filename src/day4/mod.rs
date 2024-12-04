@@ -30,7 +30,7 @@ fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
     let mut total = 0;
     let word_chars = ['X', 'M', 'A', 'S'];
     let grid = build_vec(lines).unwrap();
-    let directions = vec![
+    let directions = [
         (0, 1),
         (0, -1),
         (1, 0),
@@ -93,10 +93,8 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
                 let bottom_right_to_top_left =
                     grid[row + 1][column + 1] == 'M' && grid[row - 1][column - 1] == 'S';
 
-                if top_left_to_bottom_right && top_right_to_bottom_left
-                    || top_left_to_bottom_right && bottom_left_to_top_right
-                    || bottom_right_to_top_left && top_right_to_bottom_left
-                    || bottom_right_to_top_left && bottom_left_to_top_right
+                if !(!top_right_to_bottom_left && !bottom_left_to_top_right
+                    || !top_left_to_bottom_right && !bottom_right_to_top_left)
                 {
                     total += 1;
                 }
