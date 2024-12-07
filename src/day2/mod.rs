@@ -6,7 +6,7 @@ use std::{
 use anyhow::Result;
 
 use crate::{
-    utils::{build_data_file_path, read_lines},
+    utils::{build_data_file_path, read_lines, split_whitespace_to_usize},
     Day,
 };
 
@@ -30,10 +30,7 @@ fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
     let mut total = 0;
 
     for line in lines.map_while(Result::ok) {
-        let levels = line
-            .split_whitespace()
-            .map(|s| s.parse::<usize>().unwrap())
-            .collect::<Vec<usize>>();
+        let levels = split_whitespace_to_usize(&line);
 
         if is_valid(&levels) {
             total += 1;
@@ -47,10 +44,7 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
     let mut total = 0;
 
     for line in lines.map_while(Result::ok) {
-        let levels = line
-            .split_whitespace()
-            .map(|s| s.parse::<usize>().unwrap())
-            .collect::<Vec<usize>>();
+        let levels = split_whitespace_to_usize(&line);
 
         if is_valid(&levels) {
             total += 1;
