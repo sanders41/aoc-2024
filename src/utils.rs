@@ -34,6 +34,13 @@ pub fn build_data_file_path(day: &Day, file_name: &str) -> Result<PathBuf> {
     Ok(built_path)
 }
 
+pub fn split_whitespace_to_usize(value: &str) -> Vec<usize> {
+    value
+        .split_whitespace()
+        .map(|s| s.parse::<usize>().unwrap())
+        .collect::<Vec<usize>>()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
