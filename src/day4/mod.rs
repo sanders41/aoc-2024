@@ -6,7 +6,7 @@ use std::{
 use anyhow::Result;
 
 use crate::{
-    utils::{build_data_file_path, read_lines},
+    utils::{build_data_file_path, build_twod_vec, read_lines},
     Day,
 };
 
@@ -29,7 +29,7 @@ pub fn puzzle2() {
 fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
     let mut total = 0;
     let word_chars = ['X', 'M', 'A', 'S'];
-    let grid = build_vec(lines).unwrap();
+    let grid = build_twod_vec(lines).unwrap();
     let directions = [
         (0, 1),
         (0, -1),
@@ -76,7 +76,7 @@ fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
 
 fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
     let mut total = 0;
-    let grid = build_vec(lines).unwrap();
+    let grid = build_twod_vec(lines).unwrap();
 
     for row in 1..grid.len() - 1 {
         for column in 1..grid[row].len() - 1 {
@@ -103,16 +103,6 @@ fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
     }
 
     Ok(total)
-}
-
-fn build_vec(lines: Lines<BufReader<File>>) -> Result<Vec<Vec<char>>> {
-    let mut grid: Vec<Vec<char>> = Vec::new();
-    for line in lines.map_while(Result::ok) {
-        let columns = line.chars().collect::<Vec<char>>();
-        grid.push(columns);
-    }
-
-    Ok(grid)
 }
 
 #[cfg(test)]
