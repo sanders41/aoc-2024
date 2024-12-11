@@ -19,6 +19,19 @@ pub fn build_twod_vec(lines: Lines<BufReader<File>>) -> Result<Vec<Vec<char>>> {
     Ok(grid)
 }
 
+pub fn build_twod_vec_usize(lines: Lines<BufReader<File>>) -> Result<Vec<Vec<usize>>> {
+    let mut grid: Vec<Vec<usize>> = Vec::new();
+    for line in lines.map_while(Result::ok) {
+        let columns = line
+            .chars()
+            .map(|s| s.to_digit(10).unwrap() as usize)
+            .collect::<Vec<usize>>();
+        grid.push(columns);
+    }
+
+    Ok(grid)
+}
+
 pub fn read_lines<P>(filename: P) -> Result<Lines<BufReader<File>>>
 where
     P: AsRef<Path>,
