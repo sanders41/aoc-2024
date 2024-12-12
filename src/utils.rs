@@ -54,6 +54,10 @@ pub fn split_whitespace_to_usize(value: &str) -> Vec<usize> {
         .collect::<Vec<usize>>()
 }
 
+pub fn is_in_bounds<T>(grid: &[Vec<T>], x: isize, y: isize) -> bool {
+    x < grid.len() as isize && x >= 0 && y < grid[0].len() as isize && y >= 0
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -86,5 +90,21 @@ mod tests {
         let result = build_data_file_path(&Day::Day1, "data.txt").unwrap();
 
         assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_is_bounds() {
+        let grid = vec![vec![1, 2], vec![3, 4]];
+        let result = is_in_bounds(&grid, 0, 1);
+
+        assert!(result);
+    }
+
+    #[test]
+    fn test_is_out_of_bounds() {
+        let grid = vec![vec![1, 2], vec![3, 4]];
+        let result = is_in_bounds(&grid, 0, 9);
+
+        assert!(!result);
     }
 }
