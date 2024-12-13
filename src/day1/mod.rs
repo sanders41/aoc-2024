@@ -39,28 +39,31 @@ pub fn puzzle2() {
 }
 
 fn calculate_part_one(lines: Lines<BufReader<File>>) -> Result<usize> {
-    let mut total = 0;
     let mut values = gather_values(lines).unwrap();
     values.left.sort();
     values.right.sort();
 
-    for (index, value) in values.left.iter().enumerate() {
-        let diff = value.abs_diff(values.right[index]);
-        total += diff;
-    }
+    let total = values
+        .left
+        .iter()
+        .zip(&values.right)
+        .map(|(left, right)| left.abs_diff(*right))
+        .sum();
 
     Ok(total)
 }
 
 fn calculate_part_two(lines: Lines<BufReader<File>>) -> Result<usize> {
-    let mut total = 0;
     let values = gather_values(lines).unwrap();
 
-    for value in values.left.iter() {
-        let count = values.right.iter().filter(|&x| x == value).count();
-        let similarity = value * count;
-        total += similarity;
-    }
+    let total = values
+        .left
+        .iter()
+        .map(|value| {
+            let count = values.right.iter().filter(|&x| x == value).count();
+            value * count
+        })
+        .sum();
 
     Ok(total)
 }
