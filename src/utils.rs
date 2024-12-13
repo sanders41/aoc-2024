@@ -93,6 +93,34 @@ mod tests {
     }
 
     #[test]
+    fn test_build_twod_vec() {
+        let base = tempdir().unwrap().path().to_path_buf();
+        create_dir_all(&base).unwrap();
+        let file_path = base.join("data.txt");
+        let mut file = File::create(&file_path).unwrap();
+        let data = "ab\ncd\n";
+        file.write_all(data.as_bytes()).unwrap();
+        let lines = read_lines(&file_path).unwrap();
+        let result = build_twod_vec(lines).unwrap();
+
+        assert_eq!(result, vec![vec!['a', 'b'], vec!['c', 'd']]);
+    }
+
+    #[test]
+    fn test_build_twod_vec_usize() {
+        let base = tempdir().unwrap().path().to_path_buf();
+        create_dir_all(&base).unwrap();
+        let file_path = base.join("data.txt");
+        let mut file = File::create(&file_path).unwrap();
+        let data = "12\n34\n";
+        file.write_all(data.as_bytes()).unwrap();
+        let lines = read_lines(&file_path).unwrap();
+        let result = build_twod_vec_usize(lines).unwrap();
+
+        assert_eq!(result, vec![vec![1, 2], vec![3, 4]]);
+    }
+
+    #[test]
     fn test_is_bounds() {
         let grid = vec![vec![1, 2], vec![3, 4]];
         let result = is_in_bounds(&grid, 0, 1);
@@ -106,5 +134,12 @@ mod tests {
         let result = is_in_bounds(&grid, 0, 9);
 
         assert!(!result);
+    }
+
+    #[test]
+    fn test_split_whitespace_to_usize() {
+        let result = split_whitespace_to_usize("1 2 3 4");
+
+        assert_eq!(result, vec![1, 2, 3, 4]);
     }
 }
